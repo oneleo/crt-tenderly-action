@@ -1,0 +1,25 @@
+account_id: ""
+project_slug: ""
+actions:
+  ntust/crt-tenderly-action:
+    # Format: <Account Id>/<Project Slug>
+    # Refer: https://docs.tenderly.co/account/projects/account-project-slug
+    runtime: v2
+    sources: actions
+    specs:
+      crtTenderlyAction:
+        description: This is just an example, but you can publish this action.
+        execution_type: parallel # Options: parallel, sequential
+        function: crtTenderlyAction:watchBalanceFn # Format: <file name>:<function name>
+        trigger:
+          type: transaction
+          transaction:
+            status:
+              - mined
+            filters:
+              - network: 10
+                # Transaction must come from the network with network ID 10 Optimism
+                status: success
+                # Transaction must have succeeded
+                from: 0x777702a66cA42238c011C9e2d6308cC2Fe21a708
+                # Transaction must have been sent from CRT relayer
