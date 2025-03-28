@@ -21,7 +21,12 @@ export const watchBalanceFn: ActionFn = async (
   context: Context,
   event: Event
 ) => {
+  // Cast event to TransactionEvent type
   const transactionEvent = event as TransactionEvent;
+  if (transactionEvent.hash === undefined) {
+    return;
+  }
+
   const chainId = parseInt(transactionEvent.network);
   if (!Object.values(ChainId).includes(chainId)) {
     console.error(`Unsupported chain id: ${chainId}`);
