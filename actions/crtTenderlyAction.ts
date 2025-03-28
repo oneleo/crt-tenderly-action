@@ -56,6 +56,8 @@ export const watchBalanceFn: ActionFn = async (
   );
   console.log(`Token threshold: ${JSON.stringify(tokenThreshold)}`);
 
+  await checkAndNotifyHeartBeat(context, slackWebhook);
+
   const rpcUrl = getRpcUrl(chainId, alchemyApiKey);
   if (!rpcUrl) {
     console.error(`Unsupported chainId: ${chainId}`);
@@ -119,6 +121,32 @@ export const watchBalanceFn: ActionFn = async (
         );
       }
     }
+  }
+};
+
+const checkAndNotifyHeartBeat = async (
+  context: Context,
+  webhookUrl: string
+) => {
+  const heartBeatCounterKey = `HEART_BEAT_COUNTER`;
+  let heartBeatCounter = await context.storage.getNumber(heartBeatCounterKey);
+
+  if (!heartBeatCounter) {
+    await context.storage.putNumber(heartBeatCounterKey, 1);
+    console.log("Initialized heartBeatCounter: 1");
+    return;
+  }
+
+  heartBeatCounter += 1;
+  await context.storage.putNumber(heartBeatCounterKey, heartBeatCounter);
+  console.log(`heartBeatCounter: ${heartBeatCounter}`);
+
+  if (heartBeatCounter % 100 === 0) {
+    const title = `*_(CRT) HeartBeat 💓_*`;
+    const message = `CRT relayer has processed ${heartBeatCounter} transactions. Tenderly Web3 Actions is active.`;
+
+    console.log(`title & text: ${title}\n${message}`);
+    await sendSlackNotification(title, message, webhookUrl);
   }
 };
 
