@@ -44,6 +44,10 @@ export const watchBalanceFn: ActionFn = async (
   // Example:
   // SLACK_WEBHOOK=https://hooks.slack.com/services/xxx/xxx/xxx
   const slackWebhook: string = await context.secrets.get(`SLACK_WEBHOOK`);
+
+  // Check and notify heartbeat
+  await checkAndNotifyHeartBeat(context, slackWebhook);
+
   const alchemyApiKey: string = await context.secrets.get(`ALCHEMY_API_KEY`);
   if (!alchemyApiKey) {
     console.error(`Alchemy api key not found`);
@@ -55,8 +59,6 @@ export const watchBalanceFn: ActionFn = async (
     `TOKEN_THRESHOLD`
   );
   console.log(`Token threshold: ${JSON.stringify(tokenThreshold)}`);
-
-  await checkAndNotifyHeartBeat(context, slackWebhook);
 
   const rpcUrl = getRpcUrl(chainId, alchemyApiKey);
   if (!rpcUrl) {
