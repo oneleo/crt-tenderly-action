@@ -75,6 +75,10 @@ export const watchBalanceFn: ActionFn = async (
         );
         const tSymbol = tokenSymbol.toUpperCase();
 
+        console.log(
+          `${tSymbol} - Address: ${tAddress}, Balance: ${formatedNativeTokenBalance}, Threshold: ${tokenInfo.threshold}`
+        );
+
         await alertEthBalanceBelowThreshold(
           chainId,
           transactionHash,
@@ -94,6 +98,10 @@ export const watchBalanceFn: ActionFn = async (
         );
         const tSymbol = await erc20.symbol();
 
+        console.log(
+          `${tSymbol} - Address: ${tAddress}, Balance: ${formatedErc20TokenBalance}, Threshold: ${tokenInfo.threshold}`
+        );
+
         await alertTokenBalanceBelowThreshold(
           chainId,
           transactionHash,
@@ -105,10 +113,6 @@ export const watchBalanceFn: ActionFn = async (
           slackWebhook
         );
       }
-
-      console.log(
-        `${tokenSymbol} - Address: ${tokenInfo.address}, Decimals: ${tokenInfo.decimals}, Threshold: ${tokenInfo.threshold}`
-      );
     }
   }
 };
