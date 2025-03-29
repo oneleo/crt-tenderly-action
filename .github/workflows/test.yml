@@ -19,6 +19,7 @@ jobs:
           node-version: "18" # Specify the Node.js version you need
 
       - name: Run tests in actions directory
+        env: ${{ secrets }}
         run: |
           cd actions
           npm install  # Install dependencies for the actions directory
