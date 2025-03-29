@@ -18,8 +18,12 @@ jobs:
         with:
           node-version: "18" # Specify the Node.js version you need
 
+      - name: Set environment variable
+        run: |
+          echo "SLACK_WEBHOOK=$SLACK_WEBHOOK" >> $GITHUB_ENV
+          echo "ALCHEMY_API_KEY=$ALCHEMY_API_KEY" >> $GITHUB_ENV
+
       - name: Run tests in actions directory
-        env: ${{ secrets }}
         run: |
           cd actions
           npm install  # Install dependencies for the actions directory
