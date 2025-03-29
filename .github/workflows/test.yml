@@ -20,8 +20,8 @@ jobs:
 
       - name: Set environment variable
         run: |
-          echo "SLACK_WEBHOOK=$SLACK_WEBHOOK" >> $GITHUB_ENV
-          echo "ALCHEMY_API_KEY=$ALCHEMY_API_KEY" >> $GITHUB_ENV
+          echo "SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}" >> $GITHUB_ENV
+          echo "ALCHEMY_API_KEY=${{ secrets.ALCHEMY_API_KEY }}" >> $GITHUB_ENV
 
       - name: Run tests in actions directory
         run: |
