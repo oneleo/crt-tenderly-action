@@ -18,10 +18,10 @@ jobs:
         with:
           node-version: "18" # Specify the Node.js version you need
 
-      - name: Set environment variable
+      - name: Set environment variable in .env for dotenv
         run: |
-          echo "SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}" >> $GITHUB_ENV
-          echo "ALCHEMY_API_KEY=${{ secrets.ALCHEMY_API_KEY }}" >> $GITHUB_ENV
+          echo "SLACK_WEBHOOK=${{ secrets.SLACK_WEBHOOK }}" >> .env
+          echo "ALCHEMY_API_KEY=${{ secrets.ALCHEMY_API_KEY }}" >> .env
 
       - name: Run tests in actions directory
         run: |
