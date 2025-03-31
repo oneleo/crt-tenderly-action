@@ -1,4 +1,10 @@
-import { ActionFn, Context, Event, TransactionEvent } from "@tenderly/actions";
+import {
+  ActionFn,
+  Context,
+  Event,
+  TransactionEvent,
+  Storage,
+} from "@tenderly/actions";
 import { getAddress, JsonRpcProvider } from "ethers";
 
 import {
@@ -46,7 +52,7 @@ export const watchBalanceFn: ActionFn = async (
   const slackWebhook: string = await context.secrets.get(`SLACK_WEBHOOK`);
 
   // Check and notify heartbeat
-  await checkAndNotifyHeartBeat(context, slackWebhook);
+  await checkAndNotifyHeartBeat(context.storage, slackWebhook);
 
   const alchemyApiKey: string = await context.secrets.get(`ALCHEMY_API_KEY`);
   if (!alchemyApiKey) {
@@ -127,20 +133,20 @@ export const watchBalanceFn: ActionFn = async (
 };
 
 const checkAndNotifyHeartBeat = async (
-  context: Context,
+  storage: Storage,
   webhookUrl: string
 ) => {
   const heartBeatCounterKey = `HEART_BEAT_COUNTER`;
-  let heartBeatCounter = await context.storage.getNumber(heartBeatCounterKey);
+  let heartBeatCounter = await storage.getNumber(heartBeatCounterKey);
 
   if (!heartBeatCounter) {
-    await context.storage.putNumber(heartBeatCounterKey, 1);
+    await storage.putNumber(heartBeatCounterKey, 1);
     console.log("Initialized heartBeatCounter: 1");
     return;
   }
 
   heartBeatCounter += 1;
-  await context.storage.putNumber(heartBeatCounterKey, heartBeatCounter);
+  await storage.putNumber(heartBeatCounterKey, heartBeatCounter);
   console.log(`heartBeatCounter: ${heartBeatCounter}`);
 
   if (heartBeatCounter % 100 === 0) {
