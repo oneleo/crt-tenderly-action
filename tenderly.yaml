@@ -27,5 +27,5 @@ actions:
                 # Transaction must come from the network with network ID 10 Optimism
                 status: success
                 # Transaction must have succeeded
-                from: 0xFf32609a2Ee397857841C46d96Edb85F0Ac64d61
+                from: 0x23Bc2B107C7C7C04F2bA1d345376145adAdDFA35
                 # Transaction must have been sent from Claimable Link signer
