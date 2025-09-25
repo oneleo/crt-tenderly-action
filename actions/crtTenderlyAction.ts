@@ -12,7 +12,6 @@ import {
   ChainId,
   ERC20,
   getAddressUrl,
-  getNetworkName,
   getRpcUrl,
   getTransactionUrl,
   sendSlackNotification,
@@ -169,12 +168,14 @@ const alertEthBalanceBelowThreshold = async (
   if (balance > threshold) {
     return;
   }
-  const networkName = getNetworkName(chainId);
+  // const networkName = getNetworkName(chainId);
   const accountUrl = getAddressUrl(chainId, accountAddress);
   const transactionUrl = getTransactionUrl(chainId, transactionHash);
-  const title = `*_(CRT) ${tokenSymbol} Balance Below Threshold Alert ⚠️_*`;
+  // const title = `*_(CRT) ${tokenSymbol} Balance Below Threshold Alert ⚠️_*`;
+  const title = `*_⚠️ [CRT] Relayer 餘額告警_*`;
 
-  const message = `*[Description]*\n\tThe ${tokenSymbol} balance for CRT on ${networkName} is <${accountUrl}|${balance}> (below threshold of ${threshold}).\n*[Impact]*\n\tLow balance may lead to transaction failures or delays in cross-rollup transfers.\n*[Action Needed]*\n\t1. Check CRT relayer's ${tokenSymbol} balance.\n\t2. Investigate recent withdrawals.\n\t3. Replenish ${tokenSymbol} if necessary.\n*[Details]*\n\t1. CRT relayer: <${accountUrl}|${accountAddress}>.\n\t2. CRT guide: <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|CRT confluence>.\n*[Contact]*\n\t1. Jiahui: <@U03TKT79H7V>\n\t2. Alfred: <@U040T88AV62>\n\t3. Cyan: <@U021R1Q76U9>\n*[Triggered by]*\n\tTransaction: <${transactionUrl}|${transactionHash}>.`;
+  const message = `*細節:* <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|Confluence document>\n*動作:* 請盡快對 <${accountUrl}|CRT relayer> 充值 ${tokenSymbol} <@U03TKT79H7V> <@U040T88AV62> <@U021R1Q76U9>\n*txid:* <${transactionUrl}|${transactionHash}>`;
+  // const message = `*[Description]*\n\tThe ${tokenSymbol} balance for CRT on ${networkName} is <${accountUrl}|${balance}> (below threshold of ${threshold}).\n*[Impact]*\n\tLow balance may lead to transaction failures or delays in cross-rollup transfers.\n*[Action Needed]*\n\t1. Check CRT relayer's ${tokenSymbol} balance.\n\t2. Investigate recent withdrawals.\n\t3. Replenish ${tokenSymbol} if necessary.\n*[Details]*\n\t1. CRT relayer: <${accountUrl}|${accountAddress}>.\n\t2. CRT guide: <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|CRT confluence>.\n*[Contact]*\n\t1. Jiahui: <@U03TKT79H7V>\n\t2. Alfred: <@U040T88AV62>\n\t3. Cyan: <@U021R1Q76U9>\n*[Triggered by]*\n\tTransaction: <${transactionUrl}|${transactionHash}>.`;
 
   console.error(`title & text: ${title}\n${message}`);
   await sendSlackNotification(title, message, webhookUrl);
@@ -200,7 +201,7 @@ const alertTokenBalanceBelowThreshold = async (
   // const title = `*_(CRT) ${tokenSymbol} Balance Below Threshold Alert ⚠️_*`;
   const title = `*_⚠️ [CRT] Relayer 餘額告警_*`;
 
-  const message = `*細節:* <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|Confluence document>\n*動作:* 請盡快 <${accountUrl}|CRT relayer> 充值 <@U03TKT79H7V> <@U040T88AV62> <@U021R1Q76U9>\n*txid:* <${transactionUrl}|${transactionHash}>`;
+  const message = `*細節:* <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|Confluence document>\n*動作:* 請盡快對 <${accountUrl}|CRT relayer> 充值 ${tokenSymbol} <@U03TKT79H7V> <@U040T88AV62> <@U021R1Q76U9>\n*txid:* <${transactionUrl}|${transactionHash}>`;
   // const message = `*[Description]*\n\tThe ${tokenSymbol} balance for CRT on ${networkName} is <${balanceUrl}|${balance}> (below threshold of ${threshold}).\n*[Impact]*\n\tLow balance may lead to transaction failures or delays in cross-rollup transfers.\n*[Action Needed]*\n\t1. Check CRT relayer's ${tokenSymbol} balance.\n\t2. Investigate recent withdrawals.\n\t3. Replenish ${tokenSymbol} if necessary.\n*[Details]*\n\t1. CRT relayer: <${accountUrl}|${accountAddress}>.\n\t2. CRT guide: <https://imtoken.atlassian.net/wiki/spaces/IL/pages/1783398435|CRT confluence>.\n*[Contact]*\n\t1. Jiahui: <@U03TKT79H7V>\n\t2. Alfred: <@U040T88AV62>\n\t3. Cyan: <@U021R1Q76U9>\n*[Triggered by]*\n\tTransaction: <${transactionUrl}|${transactionHash}>.`;
 
   console.error(`title & text: ${title}\n${message}`);
