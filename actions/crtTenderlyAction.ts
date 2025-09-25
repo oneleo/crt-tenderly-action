@@ -148,7 +148,7 @@ const checkAndNotifyHeartBeat = async (
   await storage.putNumber(heartBeatCounterKey, heartBeatCounter);
   console.log(`heartBeatCounter: ${heartBeatCounter}`);
 
-  if (heartBeatCounter % 100 === 0) {
+  if (heartBeatCounter % 30 === 0) {
     const title = `*_(CRT) HeartBeat 💓_*`;
     const message = `CRT relayer has processed ${heartBeatCounter} transactions. Tenderly Web3 Actions is active.`;
 
