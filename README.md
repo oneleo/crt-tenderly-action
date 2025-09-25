@@ -74,7 +74,7 @@ actions:
 
 ```shell
 # Login to Tenderly (obtain a token from https://dashboard.tenderly.co/account/authorization)
-tenderly login
+tenderly login --force
 
 # Build the Action project
 tenderly actions build
